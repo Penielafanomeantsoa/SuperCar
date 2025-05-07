@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Voitures en Vente</title>
+    <link rel="stylesheet" href="lamborg.css">
+</head>
+<body>
+<header class="header">
+        <div class="logo">
+            <img src="images/logo.png" alt="logo" class="logo" align="center">
+        </div>
+    <nav class="menu">
+            <a href="accueil.html">Accueil</a>
+            <a href="voiture.html">Voitures</a>
+            <a href="service.php">Services</a>
+            <a href="connexion.html?redirect=formulaire.html">Demande d'essai</a>
+            <a href="contact.html">Contactez-nous</a>
+    </nav>
+
+    <div class="auth-dropdown">
+        <button class="auth-btn" id="compte"><img src="images/utilisateur.png" alt="Compte" class="icon"></button>
+        <div class="auth-menu">
+            <a href="s'inscrire.html">S'inscrire</a>
+            <a href="connexion.html">Se connecter</a>
+        </div>
+        </div>
+    
+</div>
+
+</header>
+<img src="images/lambo.jpeg" alt="une image " class="image-pleine-largeur">
+    </div>
+
+<div class="container">
+<?php
+include ("bdco.php");
+
+$sql = "SELECT * FROM voiture WHERE marque='LAMBORGHINI' LIMIT 4";
+$curseur = mysqli_query($bdd, $sql);
+
+while ($row = mysqli_fetch_assoc($curseur)) {
+    $marque = $row["marque"];
+    $modele = $row["modele"];
+    $prix = number_format($row["prix"], 0, ',', ' ') . " MUR";
+    $propriete = $row["propriete"];
+    $image = $row["image"]; 
+
+    echo "
+    <div class='car-card'>
+        <img src='$image' alt='$modele'>
+        <h3>$marque $modele</h3>
+        <p><b>Prix:</b> $prix</p>
+        <div class='buttons'>
+            <button class='button' onclick=\"showDetails('$modele', '$propriete')\">Caractéristiques</button>
+            <button class='button' onclick=\"window.location.href='connexion.html?redirect=formulaire.html'\">Demande d'essai</button>
+        </div>
+    </div>";
+}
+
+mysqli_free_result($curseur);
+mysqli_close($bdd);
+?>
+</div>
+
+<!-- Script pour la modale -->
+<script>
+    function showDetails(modele, propriete) {
+        alert("Caractéristiques de " + modele + " : " + propriete);
+    }
+</script>
+
+</body>
+</html>
